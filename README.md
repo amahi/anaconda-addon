@@ -3,8 +3,8 @@ Amahi Anaconda Add-on
 
 Directory Structure :-
 
-root_folder
 ```
+root_folder
 ├─ ks
 │  └─ __init__.py
 ├─ gui
