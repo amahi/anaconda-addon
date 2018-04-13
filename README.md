@@ -22,7 +22,7 @@ root_folder
   
   dnf -y install hda-ctl
   
-  Tried and tested. 
+  Tried and tested in Fedora-Server-dvd-x86_64-25-1.3.iso 
   
   check "execute(self, storage, ksdata, instclass, users, payload)" function in "org_amahi_setup/ks/amahi_setup.py".
   
