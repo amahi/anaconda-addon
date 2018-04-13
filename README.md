@@ -17,6 +17,9 @@ root_folder
 └─ __init__.py
 ```
 
+Reference - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/anaconda_customization_guide/index
+
+
 Steps to make iso (everything in su) :-
 
 First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
