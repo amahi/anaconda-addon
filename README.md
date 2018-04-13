@@ -19,7 +19,7 @@ root_folder
 
 Steps to make iso (everything in su) :-
 
-First execute 'dnf -y install genisoimage isomd5sum'. Now begin :-
+First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
 
 
 1. Download https://dl.fedoraproject.org/pub/fedora/linux/releases/25/Server/x86_64/iso/Fedora-Server-dvd-x86_64-25-1.3.iso into your working directory.
