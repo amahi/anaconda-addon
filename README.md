@@ -61,7 +61,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
     
     Note - in org_amahi_setup/ks/amahi_setup.py :-
     
-    Check execute(self, storage, ksdata, instclass, users, payload): funtion 
+    Check ```execute(self, storage, ksdata, instclass, users, payload):``` function 
     
     from where all commands get executed after installion.
 
