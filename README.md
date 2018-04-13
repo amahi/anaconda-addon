@@ -19,6 +19,7 @@ root_folder
 'org_amahi_setup' will execute the following commands after installation :-
   
   rpm -Uvh http://f25.amahi.org/noarch/hda-release-10.0.0-1.noarch.rpm
+  
   dnf -y install hda-ctl
   
   Tried and tested. 
