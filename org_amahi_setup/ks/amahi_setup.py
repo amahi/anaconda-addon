@@ -165,7 +165,7 @@ class AmahiData(AddonData):
         """
         
         normalpath = os.path.normpath(getSysroot())
-        call("chroot "+ normalpath+"   rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.0.0-1.noarch.rpm " , shell=True)
+        call("chroot "+ normalpath+" rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.5.0-1.noarch.rpm " , shell=True)
         
         call("chroot "+ normalpath+" dnf -y install hda-ctl " , shell=True)
         
