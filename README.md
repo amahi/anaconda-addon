@@ -40,7 +40,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
 
 9. ```cp  anaconda-addon/isolinux.cfg ISO/iso/isolinux/ && cp anaconda-addon/grub.cfg ISO/iso/EFI/BOOT/```
    
-   Note  - isolinux.cfg is for BIOS bootmenu and grub.cfg is for UEFI bootmenu. Both file contain lines beside every option:-
+   Note  - ```isolinux.cfg``` is for BIOS bootmenu and ```grub.cfg``` is for UEFI bootmenu. Both file contain the following lines beside every option:-
    
    a) ```inst.ks=hd:LABEL=Fedora-S-dvd-x86_64-25:/ks.cfg``` (to execute the kickstart file saved in installation directory)
    
