@@ -7,7 +7,7 @@ After=network-online.target
 Type=oneshot
 User=root
 Group=root
-ExecStart=/etc/hda-install-script.sh
+ExecStart=/var/hda/hda-install-script.sh
 
 [Install]
 WantedBy=multi-user.target
