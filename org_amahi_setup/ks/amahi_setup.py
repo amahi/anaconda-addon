@@ -168,21 +168,19 @@ class AmahiData(AddonData):
         normalpath = os.path.normpath(getSysroot())
         call("chroot "+ normalpath+" rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.5.0-1.noarch.rpm " , shell=True)
 
-        call("mkdir -p "+normalpath+"/var/hda/", shell=True)
+        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install "+normalpath+"/usr/bin", shell=True)
 
-        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install "+normalpath+"/var/hda", shell=True)
-
-        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/var/hda", shell=True)
+        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
         
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_setup.service "+normalpath+"/etc/systemd/system/", shell=True)
 
       
         call("chroot "+ normalpath+" systemctl enable amahi_setup.service" ,shell=True)
 
-        call("echo '/var/hda/hda-install "+self.text.upper()+"' >> "+normalpath+"/var/hda/hda-install-script.sh", shell=True)
+        call("echo '/usr/bin/hda-install "+self.text.upper()+"' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
 
-        call("echo 'rm -f /etc/profile.d/Amahi_Server_Message.sh' >> "+normalpath+"/var/hda/hda-install-script.sh", shell=True)
-        call("echo 'systemctl disable amahi_setup.service && reboot' >> "+normalpath+"/var/hda/hda-install-script.sh", shell=True)
+        call("echo 'rm -f /etc/profile.d/Amahi_Server_Message.sh' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'systemctl disable amahi_setup.service && reboot' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
  
         #call("chroot "+ normalpath+" dnf -y install hda-ctl && hda-install "+" "+self.text.upper() , shell=True)
         
