@@ -166,20 +166,27 @@ class AmahiData(AddonData):
         """
         
         normalpath = os.path.normpath(getSysroot())
+        #adding amahi repo
         call("chroot "+ normalpath+" rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.5.0-1.noarch.rpm " , shell=True)
-
+        
+        #get script in place
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install "+normalpath+"/usr/bin", shell=True)
-
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
         
-        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_setup.service "+normalpath+"/etc/systemd/system/", shell=True)
 
-      
+        #for amahi server setup message
+        call("cp -v "+normalpath+"/etc/issue "+normalpath+"/etc/issue.bak", shell=True)
+        call("cp -v "+normalpath+"/etc/issue.net "+normalpath+"/etc/issue.net.bak", shell=True) 
+        call(" cat /usr/share/anaconda/addons/org_amahi_setup/Amahi_Server_Message >> "+normalpath+"/etc/issue", shell=True)
+        call(" cat /usr/share/anaconda/addons/org_amahi_setup/Amahi_Server_Message >> "+normalpath+"/etc/issue.net", shell=True)
+       
+        #enable script service 
+        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_setup.service "+normalpath+"/etc/systemd/system/", shell=True)
         call("chroot "+ normalpath+" systemctl enable amahi_setup.service" ,shell=True)
 
+        #adding more lines at the end of hda-install-script
         call("echo '/usr/bin/hda-install "+self.text.upper()+"' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
-
-        call("echo 'rm -f /etc/profile.d/Amahi_Server_Message.sh' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'mv -f /etc/issue.bak /etc/issue && mv -f /etc/issue.net.bak /etc/issue.net' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         call("echo 'systemctl disable amahi_setup.service && reboot' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
  
         #call("chroot "+ normalpath+" dnf -y install hda-ctl && hda-install "+" "+self.text.upper() , shell=True)

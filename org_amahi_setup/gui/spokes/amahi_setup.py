@@ -1,4 +1,6 @@
 from org_amahi_setup.categories.amahi_setup import AmahiCategory
+from subprocess import check_output
+from subprocess import CalledProcessError
 from pyanaconda.ui.gui import GUIObject
 from pyanaconda.ui.gui.spokes import NormalSpoke
 from pyanaconda.ui.common import FirstbootSpokeMixIn
@@ -141,7 +143,14 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         """
 
-        return bool(self.data.addons.org_amahi_setup.text)
+        if len(self.data.addons.org_amahi_setup.text) <= 5:
+                                            return 0
+        try:
+                             check_output('wget -q --spider -U "Amahi-11-Express-x86_64" "https://api.amahi.org/api2/verify/'+self.data.addons.org_amahi_setup.text+'"', shell=True)
+        except CalledProcessError:
+                             return 0
+
+        return 1
 
     @property
     def mandatory(self):
@@ -153,7 +162,6 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         """
 
-        # this is an optional spoke that is not mandatory to be completed
         return True
 
     @property
@@ -172,12 +180,13 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         # If --reverse was specified in the kickstart, reverse the text
         if self.data.addons.org_amahi_setup.reverse:
-            text = text[::-1]
+                                         text = text[::-1]
 
-        if text:
-            return _("Install code: %s") % text
-        else:
-            return _("Install code not set")
+        if len(text) <= 5:
+                         return _("Proper Install code not set")
+        
+        return _("Install Code: %s.If Orange then verify") % text.upper()
+    
 
     ### handlers ###
     def on_entry_icon_clicked(self, entry, *args):
