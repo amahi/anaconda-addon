@@ -164,6 +164,7 @@ class AmahiData(AddonData):
         :type users: pyanaconda.users.Users instance
 
         """
+            
         
         normalpath = os.path.normpath(getSysroot())
         call("chroot "+ normalpath+" rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.5.0-1.noarch.rpm " , shell=True)
@@ -172,6 +173,9 @@ class AmahiData(AddonData):
 
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
         
+
+        call("chroot "+ normalpath+" dnf -y install hda-ctl " , shell=True)
+=======
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_setup.service "+normalpath+"/etc/systemd/system/", shell=True)
 
       
@@ -187,4 +191,8 @@ class AmahiData(AddonData):
         #call("chroot "+ normalpath+" hda-install "+" "+self.text.upper(), shell=Tr
         #hello_file_path = os.path.normpath(getSysroot() + HELLO_FILE_PATH)
         #with open(hello_file_path, "w") as fobj:
+
+        #     fobj.write("%s\n" % hello_file_path)
+=======
         #     fobj.write("%s\n" % users)
+
