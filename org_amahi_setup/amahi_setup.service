@@ -1,0 +1,13 @@
+[Unit]
+Description=Setup Amahi Server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/etc/hda-install-script.sh
+
+[Install]
+WantedBy=multi-user.target
