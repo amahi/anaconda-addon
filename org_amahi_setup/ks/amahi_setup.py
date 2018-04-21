@@ -32,6 +32,7 @@ from pykickstart.errors import KickstartParseError, formatErrorMsg
 # :see: pyanaconda.kickstart.AnacondaKSHandler.__init__
 __all__ = ["AmahiData"]
 
+HELLO_FILE_PATH = "/root/hello_world_addon_output.txt"
 
 
 
@@ -166,10 +167,24 @@ class AmahiData(AddonData):
         
         normalpath = os.path.normpath(getSysroot())
         call("chroot "+ normalpath+" rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.5.0-1.noarch.rpm " , shell=True)
-        
-        call("chroot "+ normalpath+" dnf -y install hda-ctl " , shell=True)
-        
 
+        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install "+normalpath+"/etc/", shell=True)
+
+        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/etc/", shell=True)
+        
+        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_setup.service "+normalpath+"/etc/systemd/system/", shell=True)
+
+      
+        call("chroot "+ normalpath+" systemctl enable amahi_setup.service" ,shell=True)
+
+        call("echo '/etc/hda-install "+self.text.upper()+"' >> "+normalpath+"/etc/hda-install-script.sh", shell=True)
+
+        call("echo 'rm -f /etc/profile.d/Amahi_Server_Message.sh' >> "+normalpath+"/etc/hda-install-script.sh", shell=True)
+        call("echo 'systemctl disable amahi_setup.service && reboot' >> "+normalpath+"/etc/hda-install-script.sh", shell=True)
+ 
+        #call("chroot "+ normalpath+" dnf -y install hda-ctl && hda-install "+" "+self.text.upper() , shell=True)
+        
+        #call("chroot "+ normalpath+" hda-install "+" "+self.text.upper(), shell=Tr
         #hello_file_path = os.path.normpath(getSysroot() + HELLO_FILE_PATH)
         #with open(hello_file_path, "w") as fobj:
-        #     fobj.write("%s\n" % hello_file_path)
+        #     fobj.write("%s\n" % users)
