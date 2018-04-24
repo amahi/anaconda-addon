@@ -51,7 +51,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
 
 10. ```cp -f anaconda-addon/ks.cfg ISO/iso/```
 
-11. ```chmod +x anaconda-addon/org_amahi_setup/hda-install && chmod +x anaconda-addon/org_amahi_setup/hda-install-script.sh  && cp -r anaconda-addon/org_amahi_setup product/usr/share/anaconda/addons/```
+11. ```chmod +x anaconda-addon/org_amahi_setup/hda-install && chmod +x anaconda-addon/org_amahi_setup/hda-install-script.sh && chmod +x anaconda-addon/org_amahi_setup/amahi_message  && cp -r anaconda-addon/org_amahi_setup product/usr/share/anaconda/addons/```
 
 12. ```cd product/ && find . | cpio -c -o | gzip -9cv > ../product.img``` #this will create product.img file where addon is saved
 
