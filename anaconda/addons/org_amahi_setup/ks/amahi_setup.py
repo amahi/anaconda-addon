@@ -32,6 +32,7 @@ class AmahiData(AddonData):
 
         AddonData.__init__(self, name)
         self.text = ""
+        self.complete = False
         self.reverse = False
 
     def __str__(self):
@@ -150,19 +151,18 @@ class AmahiData(AddonData):
         
         #get script in place
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
-        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install "+normalpath+"/usr/bin", shell=True)
 
         #for amahi server setup message
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_message "+normalpath+"/usr/bin", shell=True)
         call("cp -rv /usr/share/anaconda/addons/org_amahi_setup/getty@tty1.service.d/ "+normalpath+"/etc/systemd/system/", shell=True)
-        
+
         
         #enable script service 
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_setup.service "+normalpath+"/etc/systemd/system/", shell=True)
         call("chroot "+ normalpath+" systemctl enable amahi_setup.service" ,shell=True)
 
         #adding more lines at the end of hda-install-script
-        call("echo '/usr/bin/hda-install "+self.text.upper()+"' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'hda-install "+self.text.upper()+"' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         call("echo 'rm -rf /etc/systemd/system/getty@tty1.service.d' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         call("echo 'systemctl disable amahi_setup.service && reboot' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
  

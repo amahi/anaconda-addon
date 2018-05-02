@@ -105,7 +105,16 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
         update the contents of self.data with values set in the GUI elements.
 
         """
+        
+        if len(self._entry.get_text()) <= 5:
+                                                      return
+        try:
+                             check_output('wget -q --spider -U "Amahi-11-Express-x86_64" "https://api.amahi.org/api2/verify/'+self._entry.get_text()+'"', shell=True)
+        except CalledProcessError:
+                             self.data.addons.org_amahi_setup.complete = False
+                             return
 
+        self.data.addons.org_amahi_setup.complete = True
         self.data.addons.org_amahi_setup.text = self._entry.get_text()
 
     def execute(self):
@@ -145,12 +154,11 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         if len(self.data.addons.org_amahi_setup.text) <= 5:
                                             return 0
-        try:
-                             check_output('wget -q --spider -U "Amahi-11-Express-x86_64" "https://api.amahi.org/api2/verify/'+self.data.addons.org_amahi_setup.text+'"', shell=True)
-        except CalledProcessError:
-                             return 0
-
-        return 1
+      
+        if  self.data.addons.org_amahi_setup.complete:
+                   return 1
+        
+        return 0
 
     @property
     def mandatory(self):
@@ -185,8 +193,10 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
         if len(text) <= 5:
                          return _("Proper Install code not set")
         
-        return _("Install Code: %s.If Orange then verify") % text.upper()
-    
+        if self.data.addons.org_amahi_setup.complete:
+                                return _("Install Code Verified")
+        else:        
+              return _("Proper Install code not set")
 
     ### handlers ###
     def on_entry_icon_clicked(self, entry, *args):
