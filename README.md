@@ -49,7 +49,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
    
    b) ```inst.updates=hd:LABEL=Fedora-WS-dvd-x86_64-27:/amahi.img``` (to load amahi.img saved in installation directory, where anaconda addon is saved. We will tell you that how you can create this file later.)
 
-10. ```cp -f anaconda-addon/ks.cfg ISO/iso/``` #change $releasever in ```url --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch to version number of Fedora installing, in ```ks.cfg``` file```
+10. ```cp -f anaconda-addon/ks.cfg ISO/iso/``` #change $releasever in ```url --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch``` to version number of Fedora installing, in ```ks.cfg``` file
 
 11. ```chmod +x anaconda-addon/anaconda/addons/org_amahi_setup/hda-install-script.sh && chmod +x anaconda-addon/anaconda/addons/org_amahi_setup/amahi_message && cp -r anaconda-addon/anaconda product/usr/share/ && cp -r  anaconda-addon/lib64 product/usr```
 
