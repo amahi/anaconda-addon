@@ -37,7 +37,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
 
 6. ```umount /mnt/iso```
 
-7. ```mkdir -p product/usr/share/anaconda/addons```
+7. ```mkdir -p product/usr/share/```
 
 8. ```git clone https://github.com/amahi/anaconda-addon.git```
 
@@ -47,15 +47,15 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
    
    a) ```inst.ks=hd:LABEL=Fedora-WS-dvd-x86_64-27:/ks.cfg``` (to execute the kickstart file saved in installation directory)
    
-   b) ```inst.updates=hd:LABEL=Fedora-WS-dvd-x86_64-27:/product.img``` (to load product.img saved in installation directory, where anaconda addon is saved. We will tell you that how you can create this file later.)
+   b) ```inst.updates=hd:LABEL=Fedora-WS-dvd-x86_64-27:/amahi.img``` (to load amahi.img saved in installation directory, where anaconda addon is saved. We will tell you that how you can create this file later.)
 
-10. ```cp -f anaconda-addon/ks.cfg ISO/iso/```
+10. ```cp -f anaconda-addon/ks.cfg ISO/iso/``` #change $releasever in ```url --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch to version number of Fedora installing, in ```ks.cfg``` file```
 
-11. ```chmod +x anaconda-addon/org_amahi_setup/hda-install && chmod +x anaconda-addon/org_amahi_setup/hda-install-script.sh && chmod +x anaconda-addon/org_amahi_setup/amahi_message  && cp -r anaconda-addon/org_amahi_setup product/usr/share/anaconda/addons/```
+11. ```chmod +x anaconda-addon/anaconda/addons/org_amahi_setup/hda-install-script.sh && chmod +x anaconda-addon/anaconda/addons/org_amahi_setup/amahi_message && cp -r anaconda-addon/anaconda product/usr/share/ && cp -r  anaconda-addon/lib64 product/usr```
 
-12. ```cd product/ && find . | cpio -c -o | gzip -9cv > ../product.img``` #this will create product.img file where addon is saved
+12. ```cd product/ && find . | cpio -c -o | gzip -9cv > ../amahi.img``` #this will create amahi.img file where addon is saved
 
-13. ```mv -f ../product.img ../ISO/iso```
+13. ```mv -f ../amahi.img ../ISO/iso```
 
 14. ```cd ../ISO/iso```
 

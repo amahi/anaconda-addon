@@ -27,7 +27,7 @@ require 'tempfile'
 require 'dbus'
 require 'ipaddr'
 
-$version = "10.4.0"
+$version = "10.6.0"
 
 # default network device
 @network_device = "eth0"
@@ -921,16 +921,7 @@ def do_full_install(hda)
 	message "\nWould you like to reboot now? (strongly recommended)? (yes/no)?"
 
 
-	#system "reboot" 
-
-	#resp = $stdin.gets
-
-	#if resp != nil
-	#	if resp =~ /(y|yes)/
-	#		system "sync; sync; reboot"
-	#		exit 0 # just in case
-	#	end
-	#end
+	system "reboot" if @opt["y"]
 
 	message "OK. It is strongly recommended that you reboot your HDA ASAP."
 end
