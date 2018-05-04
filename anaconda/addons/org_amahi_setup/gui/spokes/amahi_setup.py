@@ -50,7 +50,7 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
     # spoke icon (will be displayed on the hub)
     # preferred are the -symbolic icons as these are used in Anaconda's spokes
-    icon = "face-cool-symbolic"
+    icon = "amahi-dice"
 
     # title of the spoke (will be displayed on the hub)
     title = N_("_AMAHI SERVER SETUP")
