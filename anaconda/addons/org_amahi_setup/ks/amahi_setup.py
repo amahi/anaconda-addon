@@ -149,6 +149,9 @@ class AmahiData(AddonData):
         #adding amahi repo
         call("chroot "+ normalpath+" rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.5.0-1.noarch.rpm " , shell=True)
         
+        #copy issue for message on top
+        call("cp -vf /usr/share/anaconda/addons/org_amahi_setup/issue /usr/share/anaconda/addons/org_amahi_setup/issue.net "+normalpath+"/usr/bin", shell=True)
+ 
         #get script in place
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
 
@@ -161,12 +164,14 @@ class AmahiData(AddonData):
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_setup.service "+normalpath+"/etc/systemd/system/", shell=True)
         call("chroot "+ normalpath+" systemctl enable amahi_setup.service" ,shell=True)
 
+
         #adding more lines at the end of hda-install-script
         call("echo 'hda-install "+self.text.upper()+"' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
-        call("echo 'rm -rf /etc/systemd/system/getty@tty1.service.d' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
-        call("echo 'systemctl disable amahi_setup.service && reboot' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'rm -rf /etc/systemd/system/getty@tty1.service.d ' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        #call("echo 'dhclient && dnf -y swap fedora-release generic-release' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'mv -f /usr/bin/issue /usr/bin/issue.net /etc' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'systemctl disable amahi_setup.service && reboot ' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
  
-        #call("chroot "+ normalpath+" dnf -y install hda-ctl && hda-install "+" "+self.text.upper() , shell=True)
         
         #call("chroot "+ normalpath+" hda-install "+" "+self.text.upper(), shell=Tr
         #hello_file_path = os.path.normpath(getSysroot() + HELLO_FILE_PATH)
