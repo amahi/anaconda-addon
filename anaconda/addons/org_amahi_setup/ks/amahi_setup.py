@@ -168,8 +168,9 @@ class AmahiData(AddonData):
         #adding more lines at the end of hda-install-script
         call("echo 'hda-install "+self.text.upper()+"' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         call("echo 'rm -rf /etc/systemd/system/getty@tty1.service.d ' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
-        #call("echo 'dhclient && dnf -y swap fedora-release generic-release' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'dhclient && dnf -y swap fedora-release generic-release' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         call("echo 'mv -f /usr/bin/issue /usr/bin/issue.net /etc' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
+        call("echo 'systemctl enable httpd.service ' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         call("echo 'systemctl disable amahi_setup.service && reboot ' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
  
         
