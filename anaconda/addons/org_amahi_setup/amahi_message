@@ -3,6 +3,6 @@
 /usr/bin/echo "*******************************************************************************"
 /usr/bin/echo "  Amahi Server is Being Setup. Please Be Patient. It may take"
 /usr/bin/echo "  several minutes. It will automatically reboot..................."
-/usr/bin/echo "  If  INTERNET fails during HDA setup  then you have to reinstall all over again"
+#/usr/bin/echo "  If  INTERNET fails during HDA setup  then you have to reinstall all over again"
 /usr/bin/echo "********************************************************************************"
 
