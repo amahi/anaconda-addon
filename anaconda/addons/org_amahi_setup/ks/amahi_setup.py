@@ -32,6 +32,9 @@ class AmahiData(AddonData):
 
         AddonData.__init__(self, name)
         self.text = ""
+        self.username=""
+        self.password=""
+        self.domain="" 
         self.complete = False
         self.reverse = False
 
@@ -153,10 +156,13 @@ class AmahiData(AddonData):
         call("cp -vf /usr/share/anaconda/addons/org_amahi_setup/issue /usr/share/anaconda/addons/org_amahi_setup/issue.net "+normalpath+"/usr/bin", shell=True)
  
         #adding INSTALL CODE at the end of hda-install
-        call("sed -i 's/hda-install/hda-install "+self.text.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
+        #call("sed -i 's/hda-install/hda-install "+self.text.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
         #get script in place
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
-
+ 
+        #copy amahi configuration to /etc
+        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi "+normalpath+"/etc", shell=True)
+        
         #for amahi server setup message
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_message "+normalpath+"/usr/bin", shell=True)
         call("cp -rv /usr/share/anaconda/addons/org_amahi_setup/getty@tty1.service.d/ "+normalpath+"/etc/systemd/system/", shell=True)
