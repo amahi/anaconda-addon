@@ -1,6 +1,3 @@
-
-
-
 import re
 
 # the path to addons is in sys.path so we can import things from org_amahi_setup
@@ -16,20 +13,20 @@ from simpleline.render.screen import InputState
 from simpleline.render.containers import ListColumnContainer
 from simpleline.render.widgets import CheckboxWidget, EntryWidget
 
-# export only the HelloWorldSpoke and HelloWorldEditSpoke classes
-__all__ = ["HelloWorldSpoke", "HelloWorldEditSpoke"]
+# export only the AmahiSpoke and AmahiEditSpoke classes
+__all__ = ["AmahiSpoke", "AmahiEditSpoke"]
 
 # import gettext
-# _ = lambda x: gettext.ldgettext("hello-world-anaconda-plugin", x)
+# _ = lambda x: gettext.ldgettext("Amahi-anaconda-plugin", x)
 
 # will never be translated
 _ = lambda x: x
 N_ = lambda x: x
 
 
-class HelloWorldSpoke(FirstbootSpokeMixIn, NormalTUISpoke):
+class AmahiSpoke(FirstbootSpokeMixIn, NormalTUISpoke):
     """
-    Class for the Hello world TUI spoke that is a subclass of NormalTUISpoke. It
+    Class for the Amahi  TUI spoke that is a subclass of NormalTUISpoke. It
     is a simple example of the basic unit for Anaconda's text user interface.
     Since it is also inherited form the FirstbootSpokeMixIn, it will also appear
     in the Initial Setup (successor of the Firstboot tool).
@@ -210,7 +207,7 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalTUISpoke):
         return Prompt(_("Enter a new text or leave empty to use the old one"))
 
 
-class HelloWorldEditSpoke(NormalTUISpoke):
+class AmahiEditSpoke(NormalTUISpoke):
     """Example class demonstrating usage of editing in TUI"""
 
     category = AmahiCategory
@@ -233,7 +230,7 @@ class HelloWorldEditSpoke(NormalTUISpoke):
 
         NormalTUISpoke.__init__(self, data, storage, payload, instclass)
 
-        self.title = N_("Hello World Edit")
+        self.title = N_("Amahi Server Edit")
         self._container = None
         # values for user to set
         self._checked = False

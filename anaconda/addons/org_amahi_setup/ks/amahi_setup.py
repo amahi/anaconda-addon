@@ -6,18 +6,14 @@ from subprocess import call
 from pykickstart.options import KSOptionParser
 from pykickstart.errors import KickstartParseError, formatErrorMsg
 
-# export HelloWorldData class to prevent Anaconda's collect method from taking
-# AddonData class instead of the HelloWorldData class
+# export AmahiData class to prevent Anaconda's collect method from taking
+# AddonData class instead of the AmahiData class
 # :see: pyanaconda.kickstart.AnacondaKSHandler.__init__
 __all__ = ["AmahiData"]
 
-HELLO_FILE_PATH = "/root/hello_world_addon_output.txt"
-
-
-
 class AmahiData(AddonData):
     """
-    Class parsing and storing data for the Hello world addon.
+    Class parsing and storing data for the Amahi world addon.
 
     :see: pyanaconda.addons.AddonData
 
@@ -35,9 +31,13 @@ class AmahiData(AddonData):
         self.username=""
         self.password=""
         self.domain="" 
-        self.complete = False
+        self.install_code=""
+        self.complete = False #if everything went well
+        self.install_code_selected = False
+        self.both_field_typed = False #if both username/password and INSTALL CODE typed
+        self.gateway_status = True #to check if correct ipv4 gateway received
         self.reverse = False
-
+ 
     def __str__(self):
         """
         What should end up in the resulting kickstart file, i.e. the %addon
@@ -61,7 +61,7 @@ class AmahiData(AddonData):
         args is a list of all the arguments following the addon ID. For
         example, for the line:
 
-            %addon org_fedora_hello_world --reverse --arg2="example"
+            %addon org_amahi_setup --reverse --arg2="example"
 
         handle_header will be called with args=['--reverse', '--arg2="example"']
 
@@ -154,15 +154,17 @@ class AmahiData(AddonData):
         
         #copy issue for message on top
         call("cp -vf /usr/share/anaconda/addons/org_amahi_setup/issue /usr/share/anaconda/addons/org_amahi_setup/issue.net "+normalpath+"/usr/bin", shell=True)
- 
-        #adding INSTALL CODE at the end of hda-install
-        #call("sed -i 's/hda-install/hda-install "+self.text.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
+        
+        if self.install_code_selected: 
+                                    #adding INSTALL CODE at the end of hda-install
+                                    call("sed -i 's/hda-install/hda-install "+self.install_code.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
+        else:
+             #copy amahi configuration to /etc
+             call("cp -v /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi "+normalpath+"/etc", shell=True)
+        
         #get script in place
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
- 
-        #copy amahi configuration to /etc
-        call("cp -v /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi "+normalpath+"/etc", shell=True)
-        
+  
         #for amahi server setup message
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/amahi_message "+normalpath+"/usr/bin", shell=True)
         call("cp -rv /usr/share/anaconda/addons/org_amahi_setup/getty@tty1.service.d/ "+normalpath+"/etc/systemd/system/", shell=True)
@@ -180,9 +182,3 @@ class AmahiData(AddonData):
         #call("echo 'dhclient && dnf -y swap fedora-release generic-release' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         #call("echo 'mv -f /usr/bin/issue /usr/bin/issue.net /etc' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
         #call("echo 'systemctl disable amahi_setup.service && reboot ' >> "+normalpath+"/usr/bin/hda-install-script.sh", shell=True)
- 
-        
-        #call("chroot "+ normalpath+" hda-install "+" "+self.text.upper(), shell=Tr
-        #hello_file_path = os.path.normpath(getSysroot() + HELLO_FILE_PATH)
-        #with open(hello_file_path, "w") as fobj:
-        #     fobj.write("%s\n" % users)
