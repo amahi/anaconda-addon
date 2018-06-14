@@ -1,5 +1,4 @@
 insert into settings (name, value, kind) values ('api-key', '#apikey', 'general');
-insert into settings (name, value, kind) values ('nick', '#nick', 'general');
 insert into settings (name, value, kind) values ('domain', '#domain', 'general');
 insert into settings (name, value, kind) values ('net', '#net_point', 'network');
 insert into settings (name, value, kind) values ('self-address', '#self-address', 'network');

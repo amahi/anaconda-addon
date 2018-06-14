@@ -110,9 +110,8 @@ def apikey_getter(username, password, domain, ip_address):
                               return ""
 
 #changing variables in system_configuration_amahi file by replacing it with received values
-def create_system_configuration_amahi(username, domain, ip_address, apikey, gateway):
+def create_system_configuration_amahi( domain, ip_address, apikey, gateway):
             call("sed -i 's/#apikey/" + apikey + "/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
-            call("sed -i 's/#nick/" + username + "/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
             call("sed -i 's/#domain/" + domain + "/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
             call("sed -i 's/#net_point/" + ip_address[0] + "." + ip_address[1] + "." + ip_address[2] + "/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
             call("sed -i 's/#self-address/" + ip_address[3] + "/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
@@ -274,7 +273,7 @@ class AmahiSpoke(FirstbootSpokeMixIn, NormalSpoke):
                            return
         
         #replace variables in system_configuration_amahi file with received values
-        create_system_configuration_amahi(username, domain, ip_address_parts,apikey, gateway)
+        create_system_configuration_amahi(domain, ip_address_parts,apikey, gateway)
 
         #if everything went well 
         self.data.addons.org_amahi_setup.complete = True
