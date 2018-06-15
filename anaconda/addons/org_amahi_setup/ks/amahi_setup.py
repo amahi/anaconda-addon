@@ -157,7 +157,7 @@ class AmahiData(AddonData):
         
         if self.install_code_selected: 
                                     #adding INSTALL CODE at the end of hda-install
-                                    call("sed -i 's/hda-install/hda-install "+self.install_code.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
+                                    call("sed -i 's/hda-install/hda-install -i "+self.install_code.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
         else:
              #copy amahi configuration to /etc
              call("cp -v /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi "+normalpath+"/etc", shell=True)
