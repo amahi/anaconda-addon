@@ -153,7 +153,7 @@ class AmahiData(AddonData):
         call("cp -vf /usr/share/anaconda/addons/org_amahi_setup/issue /usr/share/anaconda/addons/org_amahi_setup/issue.net "+normalpath+"/usr/bin", shell=True)
  
         #adding INSTALL CODE at the end of hda-install
-        call("sed -i 's/hda-install/hda-install "+self.text.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
+        call("sed -i 's/hda-install/hda-install -i "+self.text.upper()+"/' /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh", shell=True)
         #get script in place
         call("cp -v /usr/share/anaconda/addons/org_amahi_setup/hda-install-script.sh "+normalpath+"/usr/bin", shell=True)
 

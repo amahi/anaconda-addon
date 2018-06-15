@@ -26,7 +26,7 @@ done
 #This will keep executing the command untill the previous command exit status is 0
 while true
 do
-       hda-install 
+       hda-install
        if [ $? != 0 ]; then
                    killall dhclient && dhclient
                    continue
