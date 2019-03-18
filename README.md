@@ -68,6 +68,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
     
     from where all commands get executed after installion.
 
+    ```lib64/python3.7/site-packages/pyanaconda/installclass.py``` is for setting ```Geolocation=True`` for changing language automatically.
 
 Booting into ISO :-
 
@@ -75,8 +76,6 @@ Booting into ISO :-
 
 2. On next screen, select your TimeZone, Keyboard.
 
-3. On begin installation, Set your user and password with administrator ticked.
+3. Boot into the FEDORA initially for automatic server Setup. FEDORA will reboot automatically after Amahi Server gets setup.
 
-4. Boot into the FEDORA initially for automatic server Setup. FEDORA will reboot automatically after Amahi Server gets setup.
-
-5. Have a cup of coffee. :)
+4. Have a cup of coffee. :)
