@@ -1,5 +1,7 @@
 from org_amahi_setup.categories.amahi_setup import AmahiCategory
 from subprocess import check_output
+from subprocess import call
+from ipaddress import IPv4Network
 from subprocess import CalledProcessError
 from pyanaconda.ui.gui import GUIObject
 from pyanaconda.ui.gui.spokes import NormalSpoke
@@ -15,6 +17,65 @@ __all__ = ["HelloWorldSpoke"]
 _ = lambda x: x
 N_ = lambda x: x
 
+
+def check_credentials(username, password):
+        """
+        check amahi username/password
+        """
+
+        return True
+
+def check_user_input(username,password,domain):
+        import re
+        
+        #check domain name proper or not
+        m = re.search('^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$',domain) 
+        #check if any field empty
+        if len(username) == 0:
+                                                      return False
+        if len(password) == 0:
+                                                      return False
+        if (len(domain) == 0):
+                                                      return False
+        
+        #checking domain
+        try:
+             m.group(0)
+        except AttributeError:
+                              return False
+        return True
+
+def ip_splitter():
+            route = check_output("ip route | grep default", shell=True)
+            each_word = route.split(b' ')
+            for ip in each_word:
+                          try:
+                               parts = ip.split(b'.')
+                               if (len(parts) == 4) and all(0 <= int(part) < 256 for part in parts):
+                                                                         return parts
+                          except ValueError:
+                                          continue
+                          except (AttributeError, TypeError):
+                                          continue
+
+def ip_getter(parts):
+                         network = IPv4Network(parts[0].decode("utf-8")+'.'+parts[1].decode("utf-8")+'.'+parts[2].decode("utf-8") +'.0/24')
+                         hosts_iterator = (host for host in network.hosts())
+                         for host in hosts_iterator:
+                                          response = call("ping -c 1 " + str(host), shell=True)
+                                          if response != 0:
+                                                         return str(host).split('.')
+
+def apikey_getter(username, password, domain, ip_address):
+                                 return "dfsdf"
+
+def create_system_configuration_amahi(username, domain, ip_address, apikey, gateway):
+                                                    call("sed -i 's/#apikey/"+apikey+"/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
+                                                    call("sed -i 's/#nick/"+username+"/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
+                                                    call("sed -i 's/#domain/"+domain+"/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
+                                                    call("sed -i 's/#net_point/"+ip_address[0]+"."+ip_address[1]+"."+ip_address[2]+"/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
+                                                    call("sed -i 's/#self-address/"+ip_address[3]+"/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
+                                                    call("sed -i 's/#gateway/"+gateway+"/' /usr/share/anaconda/addons/org_amahi_setup/system_configuration_amahi", shell=True)
 
 class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
     """
@@ -85,7 +146,9 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
         """
 
         NormalSpoke.initialize(self)
-        self._entry = self.builder.get_object("textEntry")
+        self._entry = self.builder.get_object("username")
+        self._password = self.builder.get_object("password")
+        self._domain = self.builder.get_object("domain")
 
     def refresh(self):
         """
@@ -97,26 +160,47 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         """
 
-        self._entry.set_text(self.data.addons.org_amahi_setup.text)
-
+        self._entry.set_text(self.data.addons.org_amahi_setup.username)
+        self._password.set_text(self.data.addons.org_amahi_setup.password)
+        self._domain.set_text(self.data.addons.org_amahi_setup.domain)
+        self._password.set_visibility(False) 
+ 
     def apply(self):
         """
         The apply method that is called when the spoke is left. It should
         update the contents of self.data with values set in the GUI elements.
 
-        """
+        """        
+        if not check_user_input(self._entry.get_text(),self._password.get_text(),self._domain.get_text()):
+                             return 
+        if not (check_credentials(self._entry.get_text(), self._password.get_text())):
+                                                  return
+            
+        username = self._entry.get_text()
+        password = self._password.get_text()
+        domain = self._domain.get_text()
+
+        ip_parts= ip_splitter()
+        gateway = ip_parts[3].decode("utf-8")
+        ip_address_parts = ip_getter(ip_parts)
+    
+        apikey = apikey_getter(username, password,domain, ip_address_parts)
         
-        if len(self._entry.get_text()) <= 5:
-                                                      return
-        try:
-                             check_output('wget -q --spider -U "Amahi-11-Express-x86_64" "https://api.amahi.org/api2/verify/'+self._entry.get_text()+'"', shell=True)
-        except CalledProcessError:
-                             self.data.addons.org_amahi_setup.complete = False
-                             return
-
+        if not len(apikey):
+                           return
+        
+        create_system_configuration_amahi(username, domain, ip_address_parts,apikey, gateway)
+        #try:
+         #                    check_output('wget -q --spider -U "Amahi-11-Express-x86_64" "https://api.amahi.org/api2/verify/'+self._entry.get_text()+'"', shell=True)
+        #except CalledProcessError:
+        #                     self.data.addons.org_amahi_setup.complete = False
+        #                     return
+        
         self.data.addons.org_amahi_setup.complete = True
-        self.data.addons.org_amahi_setup.text = self._entry.get_text()
-
+        self.data.addons.org_amahi_setup.username = self._entry.get_text()
+        self.data.addons.org_amahi_setup.password = self._password.get_text()
+        self.data.addons.org_amahi_setup.domain = self._domain.get_text()
+        
     def execute(self):
         """
         The excecute method that is called when the spoke is left. It is
@@ -152,8 +236,8 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         """
 
-        if len(self.data.addons.org_amahi_setup.text) <= 5:
-                                            return 0
+        #if len(self.data.addons.org_amahi_setup.text) <= 5:
+        #                                    return 0
       
         if  self.data.addons.org_amahi_setup.complete:
                    return 1
@@ -183,25 +267,27 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
         :rtype: str
 
         """
-
-        text = self.data.addons.org_amahi_setup.text
+        username = self.data.addons.org_amahi_setup.username
+        password = self.data.addons.org_amahi_setup.password
+        domain = self.data.addons.org_amahi_setup.domain
+        #text = self.data.addons.org_amahi_setup.text
 
         # If --reverse was specified in the kickstart, reverse the text
-        if self.data.addons.org_amahi_setup.reverse:
-                                         text = text[::-1]
+        #if self.data.addons.org_amahi_setup.reverse:
+        #                                 text = text[::-1]
 
-        if len(text) <= 5:
-                         return _("Proper Install code not set")
+        if (len(username) == 0) or (len(password) == 0) or (len(domain) == 0) :
+                         return _("Fill proper Username, Password and Domain")
         
         if self.data.addons.org_amahi_setup.complete:
-                                return _("Install Code Verified")
+                                return _("Account Verified")
         else:        
-              return _("Proper Install code not set")
+              return _("Incorrect Username/Password or Domain not proper")
 
     ### handlers ###
     def on_entry_icon_clicked(self, entry, *args):
         """Handler for the textEntry's "icon-release" signal."""
-
+        
         entry.set_text("")
 
     def on_main_button_clicked(self, *args):
