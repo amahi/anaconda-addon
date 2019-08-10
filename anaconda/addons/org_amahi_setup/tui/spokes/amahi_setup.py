@@ -105,7 +105,7 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalTUISpoke):
         if len(self._entered_text) <= 5:
                                                       return
         try:
-                             check_output('wget -q --spider -U "Amahi-11-Express-x86_64" "https://api.amahi.org/api2/verify/'+self._entered_text+'"', shell=True)
+                             check_output('wget -q --spider -U "Amahi-12-Express-x86_64" "https://api.amahi.org/api2/verify/'+self._entered_text+'"', shell=True)
         except CalledProcessError:
                              self.data.addons.org_amahi_setup.complete = False
                              return

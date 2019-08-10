@@ -56,7 +56,7 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
     title = N_("_AMAHI SERVER SETUP")
 
     ### methods defined by API ###
-    def __init__(self, data, storage, payload, instclass):
+    def __init__(self, data, storage, payload):
         """
         :see: pyanaconda.ui.common.Spoke.__init__
         :param data: data object passed to every spoke to load/store data
@@ -72,7 +72,7 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         """
 
-        NormalSpoke.__init__(self, data, storage, payload, instclass)
+        NormalSpoke.__init__(self, data, storage, payload)
 
     def initialize(self):
         """
@@ -109,7 +109,7 @@ class HelloWorldSpoke(FirstbootSpokeMixIn, NormalSpoke):
         if len(self._entry.get_text()) <= 5:
                                                       return
         try:
-                             check_output('wget -q --spider -U "Amahi-11-Express-x86_64" "https://api.amahi.org/api2/verify/'+self._entry.get_text()+'"', shell=True)
+                             check_output('wget -q --spider -U "Amahi-12-Express-x86_64" "https://api.amahi.org/api2/verify/'+self._entry.get_text()+'"', shell=True)
         except CalledProcessError:
                              self.data.addons.org_amahi_setup.complete = False
                              return

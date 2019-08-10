@@ -1,7 +1,7 @@
 import os.path
 
 from pyanaconda.addons import AddonData
-from pyanaconda.iutil import getSysroot
+from pyanaconda.core.util import getSysroot
 from subprocess import call
 from pykickstart.options import KSOptionParser
 from pykickstart.errors import KickstartParseError, formatErrorMsg
@@ -67,7 +67,7 @@ class AmahiData(AddonData):
         :param args: the list of arguments from the %addon line
         :type args: list
         """
-
+        """
         op = KSOptionParser()
         op.add_option("--reverse", action="store_true", default=False,
                 dest="reverse", help="Reverse the display of the addon text")
@@ -83,6 +83,8 @@ class AmahiData(AddonData):
 
         # Store the result of the option parsing
         self.reverse = opts.reverse
+        """
+        pass
 
     def handle_line(self, line):
         """
@@ -112,7 +114,7 @@ class AmahiData(AddonData):
         # no actions needed in this addon
         pass
 
-    def setup(self, storage, ksdata, instclass, payload):
+    def setup(self, storage, ksdata, instclass):
         """
         The setup method that should make changes to the runtime environment
         according to the data stored in this object.
@@ -134,7 +136,7 @@ class AmahiData(AddonData):
         # no actions needed in this addon
         pass
 
-    def execute(self, storage, ksdata, instclass, users, payload):
+    def execute(self, storage, ksdata, instclass, users):
         """
         The execute method that should make changes to the installed system. It
         is called only once in the post-install setup phase.
@@ -147,7 +149,7 @@ class AmahiData(AddonData):
         
         normalpath = os.path.normpath(getSysroot())
         #adding amahi repo
-        call("chroot "+ normalpath+" rpm -Uvh http://f27.amahi.org/noarch/hda-release-10.5.0-1.noarch.rpm " , shell=True)
+        call("chroot "+ normalpath+" rpm -Uvh http://f29.amahi.org/noarch/hda-release-12.0.0-1.noarch.rpm " , shell=True)
         
         #copy issue for message on top
         call("cp -vf /usr/share/anaconda/addons/org_amahi_setup/issue /usr/share/anaconda/addons/org_amahi_setup/issue.net "+normalpath+"/usr/bin", shell=True)

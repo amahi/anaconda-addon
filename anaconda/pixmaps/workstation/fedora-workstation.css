@@ -7,11 +7,18 @@
  * to be overridden by a stylesheet in product.img.
  */
 .logo-sidebar {
-    background-image: url('/usr/share/anaconda/pixmaps/sidebar-bg.png');
+    background-image: url('/usr/share/anaconda/pixmaps/workstation/sidebar-bg.png');
     background-color: @fedora;
     background-repeat: no-repeat;
 }
 
+/* Add a logo to the sidebar */
+.logo {
+    background-image: url('/usr/share/anaconda/pixmaps/workstation/sidebar-logo.png');
+    background-position: 50% 20px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
 
 /* This is a placeholder to be filled by a product-specific logo. */
 .product-logo {
@@ -21,7 +28,7 @@
 
 AnacondaSpokeWindow #nav-box {
     background-color: @fedora;
-    background-image: url('/usr/share/anaconda/pixmaps/topbar-bg.png');
+    background-image: url('/usr/share/anaconda/pixmaps/workstation/topbar-bg.png');
     background-repeat: no-repeat;
     color: white;
 }
@@ -49,7 +56,7 @@ AnacondaSpokeWindow #nav-box {
 
 /* Add the product logo at the top */
 .product-logo {
-    background-image: url('/usr/share/anaconda/pixmaps/sidebar-logo_flavor.png');
+    background-image: url('/usr/share/anaconda/pixmaps/workstation/sidebar-logo_flavor.png');
     background-position: 12px 10.5em;
     background-repeat: no-repeat;
 }

@@ -25,7 +25,7 @@ Steps to make iso (everything in su) :-
 First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
 
 
-1. Download https://dl.fedoraproject.org/pub/fedora/linux/releases/27/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-27-1.6.iso into your working directory.
+1. Download https://download.fedoraproject.org/pub/fedora/linux/releases/30/Server/x86_64/iso/Fedora-Server-netinst-x86_64-30-1.2.iso into your working directory.
 
 2. ```mkdir /mnt/iso```
 
@@ -45,9 +45,9 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
    
    Note  - ```isolinux.cfg``` is for BIOS bootmenu and ```grub.cfg``` is for UEFI bootmenu. Both file contain the following lines beside every option:-
    
-   a) ```inst.ks=hd:LABEL=Fedora-WS-dvd-x86_64-27:/ks.cfg``` (to execute the kickstart file saved in installation directory)
+   a) ```inst.ks=hd:LABEL=Fedora-S-dvd-x86_64-30:/ks.cfg``` (to execute the kickstart file saved in installation directory)
    
-   b) ```inst.updates=hd:LABEL=Fedora-WS-dvd-x86_64-27:/amahi.img``` (to load amahi.img saved in installation directory, where anaconda addon is saved. We will tell you that how you can create this file later.)
+   b) ```inst.updates=hd:LABEL=Fedora-S-dvd-x86_64-30:/amahi.img``` (to load amahi.img saved in installation directory, where anaconda addon is saved. We will tell you that how you can create this file later.)
 
 10. ```cp -f anaconda-addon/ks.cfg ISO/iso/``` #change $releasever in ```url --mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch``` to version number of Fedora installing, in ```ks.cfg``` file
 
@@ -59,7 +59,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
 
 14. ```cd ../ISO/iso```
 
-15. ```genisoimage -U -r -v -T -J -joliet-long -V "Fedora-WS-dvd-x86_64-27" -volset "Fedora-WS-dvd-x86_64-27" -A "Fedora-WS-dvd-x86_64-27" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot -o ../'Amahi Express Install Disc 11.iso' . && implantisomd5 ../'Amahi Express Install Disc 11.iso'``` #your iso will be in path/to/ISO folder. Now boot it and enjoy.
+15. ```genisoimage -U -r -v -T -J -joliet-long -V "Fedora-S-dvd-x86_64-30" -volset "Fedora-S-dvd-x86_64-30" -A "Fedora-S-dvd-x86_64-30" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot -o ../'Amahi Express Install Disc 12.iso' . && implantisomd5 ../'Amahi Express Install Disc 12.iso'``` #your iso will be in path/to/ISO folder. Now boot it and enjoy.
 
     
     Note - in ```org_amahi_setup/ks/amahi_setup.py``` :-
@@ -68,7 +68,7 @@ First execute ```dnf -y install genisoimage isomd5sum```. Now begin :-
     
     from where all commands get executed after installion.
 
-    ```lib64/python3.7/site-packages/pyanaconda/installclass.py``` is for setting ```Geolocation=True`` for changing language automatically.
+
 
 Booting into ISO :-
 
