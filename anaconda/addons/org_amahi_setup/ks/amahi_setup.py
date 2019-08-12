@@ -114,7 +114,7 @@ class AmahiData(AddonData):
         # no actions needed in this addon
         pass
 
-    def setup(self, storage, ksdata, instclass):
+    def setup(self, storage, ksdata, payload):
         """
         The setup method that should make changes to the runtime environment
         according to the data stored in this object.
@@ -136,7 +136,7 @@ class AmahiData(AddonData):
         # no actions needed in this addon
         pass
 
-    def execute(self, storage, ksdata, instclass, users):
+    def execute(self, storage, ksdata, users, payload):
         """
         The execute method that should make changes to the installed system. It
         is called only once in the post-install setup phase.
