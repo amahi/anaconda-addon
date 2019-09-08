@@ -149,7 +149,7 @@ class AmahiData(AddonData):
         
         normalpath = os.path.normpath(getSysroot())
         #adding amahi repo
-        call("chroot "+ normalpath+" rpm -Uvh http://f29.amahi.org/noarch/hda-release-12.0.0-1.noarch.rpm " , shell=True)
+        call("chroot "+ normalpath+" rpm -Uvh http://f30.amahi.org/noarch/hda-release-12.0.0-1.noarch.rpm " , shell=True)
         
         #copy issue for message on top
         call("cp -vf /usr/share/anaconda/addons/org_amahi_setup/issue /usr/share/anaconda/addons/org_amahi_setup/issue.net "+normalpath+"/usr/bin", shell=True)
